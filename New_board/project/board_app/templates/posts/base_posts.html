@@ -1,0 +1,39 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+    Информация об обьявлении
+{% endblock title %}
+
+
+{% block content %}
+
+<br>
+    <h2>Информация об обьявлении "{{post.title_post}}"</h2>
+    <h4> Вы сейчас вошли под аккаунтом {{user.username}}</h4>
+
+{% if post.file %}
+<p style="text-align:left"><img style="max-width: 20%; height: 20%;" src="{{ post.file.url }}"></p>
+{% endif%}
+        <br>
+        <li style="text-align:left"> Дата последнего изменения обьявления  - {{ post.time_update| date:"d F Y f A" }}</li>
+        <li style="text-align:left"> Краткое описание обьявления  - {{ post.text_post }}</li>
+        <li style="text-align:left"> Автор обьявления  - {{ author_name }}</li>
+{% if category_names %}
+        <li style="text-align:left"> Категория  - {{ category_names }} </li>
+{% else %}
+        <li style="text-align:left"> Категория не присвоена </li>
+{% endif%}
+<br>
+<br>
+<button> <a href="/posts/{{post.pk}}/edit"> Редактировать </a> </button>
+<button> <a href="/posts/{{post.pk}}/delete"> Удалить </a> </button>
+<br>
+<br>
+{% if post.id not in subscribe_user_post and author_name != user.username %}
+  <form action="/posts/{{post.id}}/subscribe/ "method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Отправить отклик</button>
+  </form>
+{% endif %}
+{% endblock content %}

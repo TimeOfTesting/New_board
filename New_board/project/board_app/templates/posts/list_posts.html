@@ -1,0 +1,38 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+    Все обьявления
+{% endblock title %}
+
+
+{% block content %}
+<br>
+    <h2>Список всех обьявлений</h2>
+    <br>
+        <ol style="font-weight:500">
+            {% for name in post %}
+            <li style="text-align:left"><a href="/posts/{{name.id}}">  Заголовок - "{{name.title_post}}" <br> Дата публикации - {{ name.time_create| date:"d F Y f A"}} <br> Краткое содержание обьявления - {{ name.text_post|slice:":20"}}</a></li>
+            {% endfor %}
+        </ol>
+
+{% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+{% endblock content %}

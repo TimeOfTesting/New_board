@@ -1,0 +1,19 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+    News
+{% endblock title %}
+
+{% block content %}
+
+{% if category.id %}
+<div class="subscribe">
+    <em> Подписаться на категорию {{ category }} ? </em>
+
+<a href="{% url 'post_category_view' category.id %}" class="button"> Подписаться
+</a>
+</div>
+{% endif %}
+{% endblock content %}

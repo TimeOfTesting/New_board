@@ -1,0 +1,4 @@
+
+To confirm your email address, please click on the link below:
+
+{{ activate_url }}
