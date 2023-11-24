@@ -1,0 +1,37 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+    Информация о категории
+{% endblock title %}
+
+
+{% block content %}
+
+<br>
+    <h2>Список обьявлений категории "{{ category }}" </h2>
+<br>
+        <ol style="font-weight:500">
+            {% for i in result %}
+            {% if i.postcategory__categories_id == category.id%}
+            <li style="text-align:left"><a href="/posts/{{i.postcategory__posts_id}}">  Заголовок обьявления - "{{i.title_post}}" <br> Дата публикации - {{ i.time_create| date:"d F Y f A"}} <br> Краткое содержание обьявления- {{ i.text_post|slice:":20"}}</a></li>
+            {% endif %}
+            {% endfor %}
+        </ol>
+<br>
+<br>
+{% if category.id not in is_not_subscriber %}
+<form action="/news/categories/{{category.id}}/subscribe" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Подписаться</button>
+</form>
+{% else %}
+<form action="/news/categories/{{category.id}}/unsubscribe" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Отписаться</button>
+    </form>
+{% endif %}
+{% endblock content %}

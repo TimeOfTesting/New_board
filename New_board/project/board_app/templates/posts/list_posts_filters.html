@@ -1,0 +1,47 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_tags %}
+{% block title %}
+    Все обьявления
+{% endblock title %}
+
+
+{% block content %}
+<br>
+    <h2>Список всех обьявлений</h2>
+    <form action="" method="get">
+       {{ filterset.form.as_p }}
+       <input type="submit" value="Найти" />
+        <br>
+        <br>
+    </form>
+    <br>
+    {% if post %}
+        <ol style="font-weight:500">
+            {% for name in post %}
+            <li style="text-align:left"> Заголовок поста - "{{name.title_post}}" <br> Дата публикации - {{ name.time_create| date:"d F Y f A"}} <br> Краткое содержание поста - {{ name.text_post|slice:":20"}} </li>
+            {% endfor %}
+        </ol>
+    {% else%}
+    <h2>Список пуст</h2>
+    {% endif %}
+
+
+{% if page_obj.has_previous %}
+    <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+       ...
+           <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {{ page_obj.number }}
+
+   {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+        ...
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+{% endblock content %}

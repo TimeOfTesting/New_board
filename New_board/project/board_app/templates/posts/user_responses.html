@@ -1,0 +1,28 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+  <h2>Мои отклики</h2>
+
+  {% if user_responses %}
+    <ul>
+      {% for response in user_responses %}
+        <ul>
+          <li> <ul style="text-align:left"> Объявление: {{ response.posts.title_post }}</ul> </li>
+            <ul style="text-align:left"> Текст обьявления: {{ response.posts.text_post }} </ul>
+            <ul style="text-align:left"> Автор объявления: {{ response.posts.author }} </ul>
+          <ul style="text-align:left"> Статус отклика: {{ response.status }} </ul>
+        </ul>
+        <form action="{% url 'change_response_status' response.id 'accepted' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Принять">
+        </form>
+        <form action="{% url 'change_response_status' response.id 'rejected' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Отклонить">
+        </form>
+    </ul>
+  {% endfor %}
+  {% else %}
+    <p>Вы пока не оставили никаких откликов</p>
+   {% endif %}
+{% endblock %}
